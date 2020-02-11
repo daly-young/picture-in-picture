@@ -1,0 +1,42 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>video</title>
+  </head>
+  <body>
+    <video src="test.mp4" width="1000px" controls></video>
+    <button>画中画状态</button>
+  </body>
+  <script>
+    window.onload = () => {
+      let btn = document.querySelector('button')
+      let video = document.querySelector('video')
+      console.log(btn)
+      btn.onclick = function() {
+        console.log('enter')
+        if (video !== document.pictureInPictureElement) {
+          // 尝试进入画中画模式
+          video.requestPictureInPicture()
+        } else {
+          // 退出画中画
+          document.exitPictureInPicture()
+        }
+      }
+      video.addEventListener('enterpictureinpicture', function() {
+        console.warn('on')
+        var pipWindow = event.pictureInPictureWindow
+        // 我们可以绑定resize事件
+        pipWindow.addEventListener('resize', function() {
+          // pipWindow.width就是小视频窗口的宽度
+          // pipWindow.height就是小视频窗口的高度
+          console.log(pipWindow.width, pipWindow.height)
+        })
+      })
+      video.addEventListener('leavepictureinpicture', function() {
+        console.warn('off')
+      })
+    }
+  </script>
+</html>
